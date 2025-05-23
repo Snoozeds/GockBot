@@ -1,10 +1,11 @@
-import { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, InteractionContextType } from 'discord.js';
+import { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, InteractionContextType, Partials } from 'discord.js';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages],
+  partials: [Partials.Message, Partials.Channel, Partials.GuildMember],
 });
 
 // Function to generate a random reply
@@ -95,8 +96,17 @@ client.on('interactionCreate', async interaction => {
 // Handle message events
 client.on('messageCreate', (message) => {
   if (message.author.bot) return;
-  const wasMentioned = message.mentions.has(client.user!);
   
+  // Handle DM messages
+  if (message.channel.type === 1) {
+    const reply = generateReply();
+    message.reply(reply);
+    return;
+  }
+
+  // Handle mentions in guild messages
+  if (message.channel.type !== 0) return;
+  const wasMentioned = message.mentions.has(client.user!);
   if (wasMentioned) {
     const reply = generateReply();
     message.reply(reply);
