@@ -22,7 +22,7 @@ client.on('messageCreate', (message) => {
     let reply = '';
     if (rand < 0.05) {
       // 5% chance funny
-      const extras = ['Fuck you.', "No idea, I'm stupid actually.", 'I have no idea.'];
+      const extras = ['Fuck you.', "No idea, I'm stupid actually.", 'I have no idea.', 'Are you sure?'];
       reply = extras[Math.floor(Math.random() * extras.length)];
     } else {
       // 95% chance of standard responses
