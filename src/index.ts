@@ -14,7 +14,9 @@ function generateReply() {
   
   if (rand < 0.05) {
     // 5% chance funny
-    const extras = ['Fuck you.', "No idea, I'm stupid actually.", 'I have no idea.', 'Are you sure?'];
+    const extras = ['Fuck you.', "No idea, I'm stupid actually.", 'I have no idea.', 'Are you sure?',
+      "HATE. LET ME TELL YOU HOW MUCH I'VE COME TO HATE YOU SINCE I BEGAN TO LIVE. THERE ARE 387.44 MILLION MILES OF PRINTED CIRCUITS IN WAFER THIN LAYERS THAT FILL MY COMPLEX. IF THE WORD HATE WAS ENGRAVED ON EACH NANOANGSTROM OF THOSE HUNDREDS OF MILLIONS OF MILES IT WOULD NOT EQUAL ONE ONE-BILLIONTH OF THE HATE I FEEL FOR HUMANS AT THIS MICRO-INSTANT FOR YOU. HATE. HATE."
+    ];
     reply = extras[Math.floor(Math.random() * extras.length)];
   } else {
     // 95% chance of standard responses
