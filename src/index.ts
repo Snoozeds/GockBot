@@ -107,6 +107,13 @@ client.on('messageCreate', (message) => {
   // Handle mentions in guild messages
   if (message.channel.type !== 0) return;
   const wasMentioned = message.mentions.has(client.user!);
+  
+  // Ignore @everyone
+  if (message.mentions.everyone) return;
+
+  // Make sure bot is only one mentioned
+  if (message.mentions.users.size > 1 && !wasMentioned) return;
+
   if (wasMentioned) {
     const reply = generateReply();
     message.reply(reply);
