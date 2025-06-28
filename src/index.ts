@@ -21,7 +21,7 @@ function generateReply() {
     reply = extras[Math.floor(Math.random() * extras.length)];
   } else {
     // 95% chance of standard responses
-    const standardReplies = ['Yes', 'No', 'Maybe', 'Yup', 'Yep', 'Nope', 'Nah'];
+    const standardReplies = ['Yes', 'No', 'Yup', 'Yep', 'Nope', 'Nah'];
     reply = standardReplies[Math.floor(Math.random() * standardReplies.length)] + '.';
   }
 
