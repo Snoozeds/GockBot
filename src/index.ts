@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.DirectMessages, GatewayIntentBits.GuildMessages],
   partials: [Partials.Message, Partials.Channel, Partials.GuildMember],
 });
 
@@ -12,7 +12,7 @@ const client = new Client({
 function generateReply() {
   const rand = Math.random();
   let reply = '';
-  
+
   if (rand < 0.05) {
     // 5% chance funny
     const extras = ['Fuck you.', "No idea, I'm stupid actually.", 'I have no idea.', 'Are you sure?',
@@ -65,7 +65,7 @@ async function registerCommands() {
       throw new Error('CLIENT_ID is not defined in environment variables.');
     }
     const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
-    
+
     await rest.put(
       Routes.applicationCommands(process.env.CLIENT_ID),
       { body: commands },
@@ -94,9 +94,24 @@ client.on('interactionCreate', async interaction => {
 });
 
 // Handle message events
-client.on('messageCreate', (message) => {
+client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
-  
+
+  // Hib
+  const HIB_SERVER_ID = "358826789327470594";
+  if (message.guild?.id === HIB_SERVER_ID) {
+    const hibRegex = /\b(hib|hibiscus)\b/i;
+    if (hibRegex.test(message.content)) {
+      if (Math.random() < 0.25) {
+        try {
+          await message.react("🌺");
+        } catch (err) {
+          console.error("Failed to react:", err);
+        }
+      }
+    }
+  }
+
   // Handle DM messages
   if (message.channel.type === 1) {
     const reply = generateReply();
@@ -107,7 +122,7 @@ client.on('messageCreate', (message) => {
   // Handle mentions in guild messages
   if (message.channel.type !== 0) return;
   const wasMentioned = message.mentions.has(client.user!);
-  
+
   // Ignore @everyone
   if (message.mentions.everyone) return;
 
